@@ -1,5 +1,8 @@
 ﻿using System.Runtime.ExceptionServices;
 
+//intiontially whiffing is better for Aaron.
+
+int round = 0;
 
 Duelist[] duelists = {
     new Duelist(1.0 / 3, "Aaron"),
@@ -8,18 +11,20 @@ Duelist[] duelists = {
 };
 
 for (int i = 0; i < 10000; i++) {
-    match(duelists);
+    round++;
+    match(duelists,round);
 }
 
 foreach (Duelist duelist in duelists) {
     Console.WriteLine(duelist.getStats());
 }
 
-static void match(Duelist[] duelists) {
-
+static void match(Duelist[] duelists, int round) {
+    int turn = 0;
     while (aliveAmt(duelists)>1)
     {
-        //Console.WriteLine("Round Start!");
+        turn++;
+        //Console.WriteLine("Round" + round + "Start!");
         foreach (Duelist duelist in duelists)
         {
             if (!duelist.isAlive()) { continue; }
@@ -31,6 +36,8 @@ static void match(Duelist[] duelists) {
 
             if (duelist.isAlive())
             {
+                //aaron whiffs first shot
+                if (duelist.getName()=="Aaron"&&turn==1) { continue; }
                 //shoot
                 duelist.shootAtTarget(greatest);
             }
